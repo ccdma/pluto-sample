@@ -40,7 +40,12 @@ $ iio_info -S
 ```
 以下でusbのリスト取得
 ```
-$ iio_info -S | grep -E "\\[usb:.*\\]" | sed -e 's/.*\[\(usb:.*\)\].*/\1/'
+$ iio_info -S | grep -E "\\[usb:.*\\]" | sed -e "s/.*\[\(usb:.*\)\].*/\1/"
+```
+
+```python
+import subprocess
+subprocess.run(R'iio_info -S | grep -E "\\[usb:.*\\]" | sed -e "s/.*\[\(usb:.*\)\].*/\1/"', shell=True)
 ```
 
 ### シリアル通信
