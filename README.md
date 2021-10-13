@@ -57,8 +57,16 @@ $ sudo chmod 666 /dev/ttyACM0
 $ sudo cu -s 115200 -l /dev/ttyACM0
 ```
 
+### GNU Radio
+[GNU Radio](https://wiki.analog.com/resources/tools-software/linux-software/gnuradio)を参考にした。（libiioのインストール部分だけは[ここ](https://github.com/analogdevicesinc/libiio/blob/master/README_BUILD.md)を見た）
+
+本体のインストールはaptから行った。(2021/10/12時点でv3.8.1.0)
+```
+$ sudo apt install gnuradio
+```
+
 ### GNU Radioでiioモジュールのインポートに失敗する
-[GNU Radio](https://wiki.analog.com/resources/tools-software/linux-software/gnuradio)を参考にした（libiioのインストール部分だけは[ここ](https://github.com/analogdevicesinc/libiio/blob/master/README_BUILD.md)を見た）がGNU Radioで動かすときに`iio`モジュールに`pluto-source`かなにかがないと言われた。
+上記の方法で入れて実行したが、GNU Radioで動かすときに`iio`モジュールに`pluto-source`かなにかがないと言われた。
 
 [これ](https://techfocusalexn.wordpress.com/2021/04/03/setting-up-adalm-pluto-on-ubuntu/)したらうまく行った。下記抜粋。
 
