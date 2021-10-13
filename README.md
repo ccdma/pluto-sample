@@ -33,10 +33,15 @@ $ docker run --device=/dev/ttyACM0:/dev/ttyACM1 \
 
 ### get ip/usb addr
 - https://ez.analog.com/wide-band-rf-transceivers/design-support/f/q-a/102669/use-multiple-adalm-pluto-for-gnu-radio
+
+（恐らくlibiioが必要）
 ```
 $ iio_info -S
 ```
-（恐らくlibiioが必要）
+以下でusbのリスト取得
+```
+$ iio_info -S | grep -E "\\[usb:.*\\]" | sed -e 's/.*\[\(usb:.*\)\].*/\1/'
+```
 
 ### シリアル通信
 [公式ページ](https://wiki.analog.com/university/tools/pluto/drivers/linux)にあるkermitはサポートされていない。`cu`コマンドで代替できる。
