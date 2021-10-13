@@ -25,13 +25,3 @@ RUN \
 # https://wiki.analog.com/resources/tools-software/linux-software/pyadi-iio
 ENV PYTHONPATH=$PYTHONPATH:/usr/lib/python${PYTHONVER}/site-packages
 RUN python${PYTHONVER} -m pip install pylibiio pyadi-iio matplotlib numpy scipy
-
-# install gnu-radio with gr-iio
-# https://wiki.analog.com/resources/tools-software/linux-software/pyadi-iio
-RUN \
-    apt-get install gnuradio -y && \
-    git clone https://github.com/analogdevicesinc/libad9361-iio.git && cd libad9361-iio && cmake . && make && make install && cd && \
-    apt-get install bison flex cmake git libgmp-dev swig liborc-dev -y && \
-    git clone -b upgrade-3.8 https://github.com/analogdevicesinc/gr-iio.git && cd gr-iio && cmake . && make && make install && cd && ldconfig && \
-    apt-get clean
-ENV PYTHONPATH=$PYTHONPATH:/usr/lib/python${PYTHONVER}/dist-packages
