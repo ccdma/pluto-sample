@@ -34,7 +34,7 @@ $ docker run --device=/dev/ttyACM0:/dev/ttyACM1 \
 ### get ip/usb addr
 - https://ez.analog.com/wide-band-rf-transceivers/design-support/f/q-a/102669/use-multiple-adalm-pluto-for-gnu-radio
 
-（恐らくlibiioが必要）
+（恐らく[libiio](https://github.com/analogdevicesinc/libiio/blob/master/README_BUILD.md)が必要）
 ```
 $ iio_info -S
 ```
