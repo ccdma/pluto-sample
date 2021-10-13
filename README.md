@@ -17,6 +17,15 @@ $ docker run --privileged \
 
 `dbus`や`avahi`のマウントは`iio_info`などがデバイスの検索をする場合に必要。`--privilleged`により、ホストの`/dev`以下をコンテナから参照できる。
 
+デバイスごとにマウントする場合は以下の通り。
+```
+$ docker run --device=/dev/ttyACM0:/dev/ttyACM1 \
+    -v /var/run/dbus:/var/run/dbus \
+    -v /var/run/avahi-daemon/socket:/var/run/avahi-daemon/socket \
+    --rm -it pluto bash
+```
+ホストの`/dev/ttyACM0`を`/dev/ttyACM1`としてマウントできる。（上記動作せず。Avahiにアクセスできない。）
+
 ## Adalum-Plutoに関するメモ
 
 ### users guide
