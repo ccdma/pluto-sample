@@ -17,13 +17,12 @@ RUN \
     apt-get install libserialport-dev libavahi-client-dev -y && \
     apt-get install doxygen graphviz -y && \
     apt-get install python${PYTHONVER} python3-pip python3-setuptools -y && \
-    apt-get clean
-RUN \
+    apt-get clean && \
     git clone https://github.com/pcercuei/libini.git && cd libini && mkdir build && cd build && cmake ../ && make && make install && cd && \
     git clone https://github.com/analogdevicesinc/libiio.git && cd libiio && mkdir build && cd build && cmake ../ -DPYTHON_BINDINGS=ON && make && make install && cd
-ENV PYTHONPATH=$PYTHONPATH:/usr/lib/python${PYTHONVER}/site-packages
 
-# install python iio
+# install python iio with other library
 # https://wiki.analog.com/resources/tools-software/linux-software/pyadi-iio
+ENV PYTHONPATH=$PYTHONPATH:/usr/lib/python${PYTHONVER}/site-packages
 RUN python${PYTHONVER} -m pip install pylibiio pyadi-iio matplotlib numpy scipy
 

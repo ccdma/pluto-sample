@@ -42,3 +42,10 @@ $ sudo cu -s 115200 -l /dev/ttyACM0
 
 >In my case (GRC 3.8) one has to copy the gr-iio (originally installed in /usr/local/lib/python3/dist-packages/iio) to /usr/lib/python3/dist-packages. The guide said to copy to gnuradio, which did not help.
 Then the export command: export PYTHONPATH=$PYTHONPATH:/usr/lib/python3/dist-packages should be executed. But that is not all, the Python iio library must be uninstalled (or deleted from /home/[username]/.local/lib/python3.8/site-packages/).
+
+### C/C++ Compile
+`iio`へのリンクが必要
+
+```
+$ gcc smpl.c -liio
+```
