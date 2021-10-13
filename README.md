@@ -26,6 +26,13 @@ $ docker run --device=/dev/ttyACM0:/dev/ttyACM1 \
 ```
 ホストの`/dev/ttyACM0`を`/dev/ttyACM1`としてマウントできる。（上記動作せず。Avahiにアクセスできない。）
 
+以下はコンテナからX11を利用可能にするオプション。
+
+```
+--net host -e DISPLAY=$DISPLAY -v $HOME/.Xauthority:/root/.Xauthority:ro
+```
+- [Docker コンテナ上で動く X11 アプリケーションのウィンドウをディスプレイに表示させる](https://qiita.com/hoto17296/items/7c1ba10c1575c6c38105)
+
 ## Adalum-Plutoに関するメモ
 
 ### users guide
@@ -79,3 +86,4 @@ Then the export command: export PYTHONPATH=$PYTHONPATH:/usr/lib/python3/dist-pac
 ```
 $ gcc smpl.c -liio
 ```
+
