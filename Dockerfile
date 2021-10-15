@@ -40,3 +40,7 @@ RUN \
     python${PYTHONVER} -m pip install pylibiio pyadi-iio matplotlib numpy scipy && \
     sudo apt-get install python3-tk -y && \
     sudo apt-get clean 
+
+RUN \
+    sudo apt-get install cu -y && \
+    sudo apt-get clean
