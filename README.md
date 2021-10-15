@@ -6,6 +6,7 @@ In this directory, run below command
 
 ```
 $ docker build -t pluto .
+```
 
 ```
 $ docker run --privileged \
@@ -17,7 +18,6 @@ $ docker run --privileged \
     pluto bash
 ```
 
-```
 
 `dbus`や`avahi`のマウントは`iio_info`などがデバイスの検索をする場合に必要。`--privilleged`により、ホストの`/dev`以下をコンテナから参照できる。
 ```
