@@ -12,7 +12,8 @@ $ docker build -t pluto .
 $ docker run --privileged \
     -v /var/run/dbus:/var/run/dbus \
     -v /var/run/avahi-daemon/socket:/var/run/avahi-daemon/socket \
-    --rm -it pluto bash
+    --rm -it \
+    pluto bash
 ```
 
 `dbus`や`avahi`のマウントは`iio_info`などがデバイスの検索をする場合に必要。`--privilleged`により、ホストの`/dev`以下をコンテナから参照できる。
@@ -29,7 +30,7 @@ $ docker run --device=/dev/ttyACM0:/dev/ttyACM1 \
 以下はコンテナからX11を利用可能にするオプション。
 
 ```
---net host -e DISPLAY=$DISPLAY -v $HOME/.Xauthority:/root/.Xauthority:ro
+--net host -e DISPLAY=$DISPLAY -v $HOME/.Xauthority:~/.Xauthority:ro
 ```
 - [Docker コンテナ上で動く X11 アプリケーションのウィンドウをディスプレイに表示させる](https://qiita.com/hoto17296/items/7c1ba10c1575c6c38105)
 
