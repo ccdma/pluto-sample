@@ -13,7 +13,7 @@ $ docker run --privileged \
     -v /var/run/avahi-daemon/socket:/var/run/avahi-daemon/socket \
     --net host -e DISPLAY=$DISPLAY -v $HOME/.Xauthority:/home/user/.Xauthority:ro \
     --rm -it \
-    -v `pwd`:/home/user/workdir
+    -v `pwd`:/home/user/workdir \
     pluto bash
 ```
 

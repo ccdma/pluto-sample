@@ -4,6 +4,8 @@ FROM ubuntu:focal-20210921
 
 ARG UID=1000
 ARG GID=1000
+ARG USERNAME=user
+ARG HOME=/home/user
 ARG PYTHONVER=3.8
 
 # update apt repository
@@ -12,10 +14,12 @@ RUN apt-get update
 # create and change user
 RUN \
     apt-get install sudo -y && \ 
-    groupadd user -g ${GID} && \
-    useradd -u ${UID} -g ${GID} -m -s /bin/bash -G sudo user && \
+    groupadd ${USERNAME} -g ${GID} && \
+    useradd -u ${UID} -g ${GID} -d ${HOME} -m -s /bin/bash -G sudo ${USERNAME} && \
     echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
-USER user
+USER ${USERNAME}
+
+WORKDIR ${HOME}
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN sudo ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
@@ -30,8 +34,8 @@ RUN \
     sudo apt-get install doxygen graphviz -y && \
     sudo apt-get install python${PYTHONVER} python3-pip python3-setuptools -y && \
     sudo apt-get clean && \
-    cd && git clone https://github.com/pcercuei/libini.git && cd libini && mkdir build && cd build && cmake ../ && make && sudo make install && cd && \
-    cd && git clone https://github.com/analogdevicesinc/libiio.git && cd libiio && mkdir build && cd build && cmake ../ -DPYTHON_BINDINGS=ON && make && sudo make install && cd
+    cd ${HOME} && git clone https://github.com/pcercuei/libini.git && cd libini && mkdir build && cd build && cmake ../ && make && sudo make install && cd ${HOME} && \
+    cd ${HOME} && git clone https://github.com/analogdevicesinc/libiio.git && cd libiio && mkdir build && cd build && cmake ../ -DPYTHON_BINDINGS=ON && make && sudo make install && cd ${HOME}
 
 # install python iio with other library
 # https://wiki.analog.com/resources/tools-software/linux-software/pyadi-iio
