@@ -17,5 +17,4 @@ for datum in data:
 plt.scatter(data_r, data_i)
 plt.xlabel("I")
 plt.ylabel("Q")
-
 plt.show()
