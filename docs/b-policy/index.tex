@@ -1,0 +1,31 @@
+\documentclass{jsarticle}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{float}
+\title{研究提案書}
+
+\author{物理統計学分野B4 松山拓生 \\ matsuyama.hiroki.24c@st.kyoto-u.ac.jp}
+\date{\today}
+\begin{document}
+\maketitle
+
+\section{概要}
+
+\section{背景}
+無線通信技術、現在5Gが徐々に生活に浸透してきているということもあり、非常にホットな分野である。現状5Gで使用されている無線通信技術の元となっているのはCDMA\cite{cdma-overview}であるが、これは3Gの時代から使用されている技術であり、非常に歴史が長い。しかしながら次なるBeyond5G/6Gでは超多数同時接続\cite{mmtc}(mMTC = massive Machine-Type Communications)が求められており、さらなる同時接続可能数の増加を可能とするような無線通信技術が必要となる。
+
+今回紹介するICA通信\cite{red-book}はこのCDMAと同じレイヤーに属する通信方式であり、ブラインド信号源分離と呼ばれる分野の一つである。この通信方式を実際に実機で検証し、各種通信性能の検証を行う。この詳細については次章で説明する。
+
+\section{方法}
+\subsection{モデル化}
+ここではICA通信のモデルについて説明する。
+
+\section{展望}
+
+\begin{thebibliography}{99}
+    \bibitem{cdma-overview} S. Hara and R. Prasad, Overview of multicarrier CDMA, IEEE Communications Magazine, 126-133, Dec. 1997
+    \bibitem{red-book} 梅野 健, 複雑系と通信, 複雑系としての情報システム,
+    共立出版, 2007, 181
+    \bibitem{mmtc} ANUTUSHA DOGRA and RAKESH KUMAR JHA and SHUBHA JAIN, A Survey on Beyond 5G Network With the Advent of 6G: Architecture and Emerging Technologies
+\end{thebibliography}
+
+\end{document}
