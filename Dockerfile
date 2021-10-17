@@ -37,14 +37,16 @@ RUN \
     cd ${USERHOME} && git clone https://github.com/pcercuei/libini.git && cd libini && mkdir build && cd build && cmake ../ && make && sudo make install && cd ${USERHOME} && \
     cd ${USERHOME} && git clone https://github.com/analogdevicesinc/libiio.git && cd libiio && mkdir build && cd build && cmake ../ -DPYTHON_BINDINGS=ON && make && sudo make install && cd ${USERHOME}
 
+# install cu command
+RUN \
+    sudo apt-get install cu -y && \
+    sudo apt-get clean
+
 # install python iio with other library
 # https://wiki.analog.com/resources/tools-software/linux-software/pyadi-iio
 ENV PYTHONPATH=$PYTHONPATH:/usr/lib/python${PYTHONVER}/site-packages
 RUN \
-    python${PYTHONVER} -m pip install pylibiio pyadi-iio matplotlib numpy scipy && \
+    python${PYTHONVER} -m pip install pylibiio pyadi-iio matplotlib numpy scipy wave scikit-commpy && \
     sudo apt-get install python3-tk -y && \
     sudo apt-get clean 
 
-RUN \
-    sudo apt-get install cu -y && \
-    sudo apt-get clean
