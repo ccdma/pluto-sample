@@ -1,16 +1,24 @@
 version: "3"
 services:
   pluto:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: pluto
     tty: true
     privileged: true
     volumes:
       - "/var/run/dbus:/var/run/dbus"
       - "/var/run/avahi-daemon/socket:/var/run/avahi-daemon/socket"
+      # - avahi-socket:/var/run/avahi-daemon/socket
       - "$HOME/.Xauthority:/home/user/.Xauthority:ro"
       - ..:/home/user/workdir
     network_mode: "host"
     environment:
       - DISPLAY=$DISPLAY
+  
+  # avahi:
+  #   image: flungo/avahi
+  #   volumes:
+  #     - avahi-socket:/var/run/avahi-daemon/socket
+
+volumes:
+  avahi-socket:
+    driver: local
