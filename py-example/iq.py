@@ -8,7 +8,9 @@ sdr.rx_rf_bandwidth = 4*MHz
 sdr.rx_lo = 920*MHz
 
 data = sdr.rx()
-
+# for x in range(10):
+#     d = sdr.rx()
+#     print(len(d), d)
 data_r = []
 data_i = []
 for datum in data:
