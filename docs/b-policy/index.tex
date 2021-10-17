@@ -1,11 +1,17 @@
 \documentclass{jsarticle}
 \usepackage[dvipdfmx]{graphicx}
 \usepackage{float}
+\usepackage{amsmath} % assumes amsmath package installed
+\usepackage{amssymb}  % assumes amsmath package installed
+\usepackage{amsfonts}  % assumes amsmath package installed
+\usepackage{amsthm}  % assumes amsmath package installed
+
 \title{研究提案書}
 
 \author{物理統計学分野B4 松山拓生 \\ matsuyama.hiroki.24c@st.kyoto-u.ac.jp}
 \date{\today}
 \begin{document}
+
 \maketitle
 
 \section{概要}
@@ -17,7 +23,76 @@
 
 \section{方法}
 \subsection{モデル化}
-ここではICA通信のモデルについて説明する。
+元信号$S$,混合行列$A$,混合信号$X$を用いて
+\begin{gather}
+    X = AS
+\end{gather}
+とする。このときある復元行列$B$を用いて復元信号$Y$を
+\begin{gather}
+    Y = BX
+\end{gather}
+のように書くことができるが、$Y$が現信号$S$に似た特徴をもったベクトルとなるような$B$を見つけられれば、信号がうまく分離できたと考えることができよう。ブラインド信号源分離問題はこのように行列$B$を推定する問題数式としてモデル化することができる。
+
+\subsection{ICA通信}
+ICA通信ではこの問題を信号間の独立性を仮定することによって解くことを考える。
+
+\begin{figure}[!htbp]
+    \begin{center}
+        \includegraphics[width=10cm]{img/3device.png}
+        \caption{実験概要}
+        \label{img:3device}
+    \end{center}
+\end{figure}
+
+\section{現状}
+現状得ている結果についてもまとめておく。現状では様々なタイプの混合信号に対し、2つのICAアルゴリズム（FastICA\cite{fastica}とEASI\cite{easi}）を利用して分離がうまく行くかどうかをコンピューター上で検証している。その結果の一部を下記に記す。
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[width=13cm]{img/sqrtsin-fastica.png}
+        \caption{正弦波+FastICA(時系列データ)}
+        \label{img:sqrtsin-fastica}
+    \end{center}
+\end{figure}
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[width=13cm]{img/sqrtsin-easi.png}
+        \caption{正弦波+EASI(時系列データ)}
+        \label{img:sqrtsin-easi}
+    \end{center}
+\end{figure}
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[width=13cm]{img/cyebit-fastica.png}
+        \caption{チェビシェフ系列+FastICA(リターンマップ)}
+        \label{img:cyebit-fastica}
+    \end{center}
+\end{figure}
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[width=13cm]{img/cyebit-easi.png}
+        \caption{チェビシェフ系列+EASI(リターンマップ)}
+        \label{img:cyebit-easi}
+    \end{center}
+\end{figure}
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[width=13cm]{img/sinchebyt-plot-fastica.png}
+        \caption{チェビシェフ系列＆正弦波+FastICA(時系列データ)}
+        \label{img:sinchebyt-plot-fastica}
+    \end{center}
+\end{figure}
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[width=13cm]{img/sinchebyt-ret-fastica.png}
+        \caption{チェビシェフ系列＆正弦波+FastICA(リターンマップ)}
+        \label{img:sinchebyt-ret-fastica}
+    \end{center}
+\end{figure}
+
+図\ref{img:sqrtsin-fastica}-\ref{img:sinchebyt-ret-fastica}の時系列データにおける横軸は、サンプル数を表す。またFastICAでは1000点をサンプリングしたそのすべてを、EASIでは10000点をサンプリングし、最後の500点のみをそれぞれプロットしている。また、混合行列$A$は$-0.5$から$0.5$における乱数によって生成された行列を用いている。
+
+上記グラフから、FastICA、EASIともに非常に高いパフォーマンスで信号分離が行えていることが分かる。中でも正弦波、チェビシェフ系列の混合がうまく分離できていることは注目に値し、異なる通信方式が共存できる可能性をも示唆している。
 
 \section{展望}
 
@@ -26,6 +101,8 @@
     \bibitem{red-book} 梅野 健, 複雑系と通信, 複雑系としての情報システム,
     共立出版, 2007, 181
     \bibitem{mmtc} ANUTUSHA DOGRA and RAKESH KUMAR JHA and SHUBHA JAIN, A Survey on Beyond 5G Network With the Advent of 6G: Architecture and Emerging Technologies
+    \bibitem{fastica} A. Hyvarinen, Fast and robust fixed-point algorithms for independent component analysis, IEEE Transactions on Neural Networks ( Volume: 10, Issue: 3, May 1999), 626-634
+    \bibitem{easi} J.-F. Cardoso and B.H. Laheld, Equivariant adaptive source separation, IEEE Transactions on Signal Processing ( Volume: 44, Issue: 12, Dec 1996), 3017-3030
 \end{thebibliography}
 
 \end{document}
