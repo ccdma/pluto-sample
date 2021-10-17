@@ -37,7 +37,7 @@ RUN \
     cd ${USERHOME} && git clone https://github.com/pcercuei/libini.git && cd libini && mkdir build && cd build && cmake ../ && make && sudo make install && cd ${USERHOME} && \
     cd ${USERHOME} && git clone https://github.com/analogdevicesinc/libiio.git && cd libiio && mkdir build && cd build && cmake ../ -DPYTHON_BINDINGS=ON && make && sudo make install && cd ${USERHOME}
 
-# install cu command
+# install some tools
 RUN \
     sudo apt-get install cu -y && \
     sudo apt-get clean
@@ -50,3 +50,6 @@ RUN \
     sudo apt-get install python3-tk -y && \
     sudo apt-get clean 
 
+ADD entrypoint.sh /entrypoint.sh
+RUN sudo chown ${USERNAME}:${USERNAME} -R /entrypoint.sh && sudo chmod 700 /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
