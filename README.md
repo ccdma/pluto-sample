@@ -5,7 +5,7 @@ C/Python bindings for ad.
 In this directory, run below command
 
 ```
-$ docker build -t pluto .
+$ docker build --build-arg UID=$(id -u) --build-arg GID=$(id -g) -t pluto .
 ```
 
 ```
