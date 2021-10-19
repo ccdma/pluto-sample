@@ -1,0 +1,7 @@
+version: "3"
+services:
+  pluto:
+    image: face0u0/ulatex:2021-basic-v1
+    tty: true
+    volumes:
+      - .:/tex
