@@ -1,6 +1,6 @@
 \documentclass{jsarticle}
 \usepackage[dvipdfmx]{graphicx}
-\usepackage{float}
+\usepackage{float,url}
 \usepackage{amsmath} % assumes amsmath package installed
 \usepackage{amssymb}  % assumes amsmath package installed
 \usepackage{amsfonts}  % assumes amsmath package installed
@@ -23,18 +23,23 @@
 
 \section{方法}
 \subsection{モデル化}
-元信号$S$,混合行列$A$,混合信号$X$を用いて
+元信号$\textbf{s}(t) = [s_1(t) \cdots s_n(t)]^t$、混合行列$A\in \mathbb{R}^{n\times n}$、混合信号$\textbf{x}(t) = [x_1(t) \cdots x_n(t)]^t$を用いて
 \begin{gather}
-    X = AS
+    \textbf{x}(t) = A\textbf{s}(t)
 \end{gather}
-とする。このときある復元行列$B$を用いて復元信号$Y$を
+とする。このとき、ある復元行列$B\in \mathbb{R}^{n\times n}$を用いて復元信号$\textbf{y}(t)= [y_1(t) \cdots y_n(t)]^t$を
 \begin{gather}
-    Y = BX
+    \textbf{y}(t) = B\textbf{x}(t)
 \end{gather}
-のように書くことができるが、$Y$が現信号$S$に似た特徴をもったベクトルとなるような$B$を見つけられれば、信号がうまく分離できたと考えることができよう。ブラインド信号源分離問題はこのように行列$B$を推定する問題数式としてモデル化することができる。a
+のように書くことができるが、$\textbf{y}(t)$が現信号$\textbf{s}(t)$に似た特徴をもったベクトルとなるような$B$を見つけられれば、信号がうまく分離できたと考えることができよう。ブラインド信号源分離問題はこのように行列$B$を推定する問題としてモデル化することができる。
 
 \subsection{ICA通信}
-ICA通信ではこの問題を信号間の独立性を仮定することによって解くことを考える。
+ICA通信ではこの問題を信号間の独立性を仮定することによって解くことを考える。現状で利用を考えているのはFastICA\cite{fastica}とEASI\cite{easi}であり、これらはすでに実装し、シュミレーションで分離性能を確認している。(詳細については4章で説明する)
+
+\subsection{使用する実機}
+analog devicesの提供するadalum-pluto
+(\url{https://wiki.analog.com/university/tools/pluto})
+を使用して無線通信を行う。以下のように受信器、送信機をそれぞれ2つずつ使用して検証を行う。(モデルにおいて$n=2$)
 
 \begin{figure}[!htbp]
     \begin{center}
