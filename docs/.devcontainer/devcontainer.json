@@ -1,0 +1,6 @@
+{
+    "dockerComposeFile": "./docker-compose.yml",
+    "remoteUser": "user",
+    "service": "tex",
+    "workspaceFolder": "/tex"
+}
