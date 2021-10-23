@@ -8,7 +8,7 @@ services:
       - "/var/run/dbus:/var/run/dbus"
       - "/var/run/avahi-daemon/socket:/var/run/avahi-daemon/socket"
       - "$HOME/.Xauthority:/home/user/.Xauthority:ro"
-      - ../py-example:/workdir
+      - ..:/workdir
     network_mode: "host"
     environment:
       - USER_ID=1000

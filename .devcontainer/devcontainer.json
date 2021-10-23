@@ -2,5 +2,9 @@
     "dockerComposeFile": "./docker-compose.yml",
     "remoteUser": "user",
     "service": "pluto",
-    "workspaceFolder": "/workdir"
+    "workspaceFolder": "/workdir",
+    "extensions": [
+        "ms-vscode.cpptools",
+        "ms-python.python"
+    ]
 }
