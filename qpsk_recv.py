@@ -1,5 +1,6 @@
 import adiutil
 from pylab import *
+import matplotlib.pyplot as plt
 
 KHz = 1000
 MHz = 1000*1000
@@ -11,8 +12,16 @@ if __name__ == "__main__":
     sdr.rx_lo = 920*MHz
     
     samples = sdr.rx()
-    psd(samples, NFFT=1024, Fs=sdr.sample_rate/MHz, Fc=sdr.sample_rate/MHz)
 
-    xlabel("Frequency (MHz)")
-    ylabel("relative power (db)")
-    show()
+    # QPSKコンスタレーション
+    plt.figure()
+    plt.plot(samples.real, samples.imag, lw=1)
+    plt.scatter(samples.real, samples.imag, s=10)
+    plt.show()
+
+
+    # psd(samples, NFFT=1024, Fs=sdr.sample_rate/MHz, Fc=sdr.sample_rate/MHz)
+
+    # xlabel("Frequency (MHz)")
+    # ylabel("relative power (db)")
+    # show()
