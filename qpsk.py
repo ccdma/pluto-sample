@@ -4,12 +4,13 @@ import scipy.signal as sig
 import commpy
 import adiutil
 
+KHz = 1000
 MHz = 1000*1000
 DEVICES = adiutil.DeviceList()
 
 bits = np.random.randint(0, 2, 1024)
 rate = 9600
-upsample_ratio = 15
+upsample_ratio = 150
 targetrate = rate*upsample_ratio
 
 if __name__ == "__main__":
@@ -46,7 +47,7 @@ if __name__ == "__main__":
     # plt.show()
 
     sdr = DEVICES.find("1044734c9605000d15003300deb64fb9ce").create_pluto()
-    sdr.tx_rf_bandwidth = 0.1 * MHz
+    sdr.tx_rf_bandwidth = 100*KHz
     sdr.tx_lo = 920*MHz
     sdr.sample_rate = int(targetrate)
     sdr.tx_hardwaregain = 0

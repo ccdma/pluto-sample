@@ -43,3 +43,5 @@ class DeviceList:
             if not device.serial in excludes:
                 filterd.append(device)
         return filterd
+
+# print(DeviceList().all())
