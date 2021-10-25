@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.signal as sig
-import commpy
+import commpy, scipy
 import adiutil
 
 KHz = 1000
@@ -44,7 +44,7 @@ if __name__ == "__main__":
     # plt.figure()
     # plt.plot(upsampled.real, upsampled.imag, lw=1)
     # plt.scatter(upsampled.real, upsampled.imag, s=10)
-    # plt.show()
+    plt.show()
 
     sdr = DEVICES.find("1044734c9605000d15003300deb64fb9ce").create_pluto()
     sdr.tx_rf_bandwidth = 100*KHz
