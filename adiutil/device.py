@@ -1,5 +1,15 @@
 import dataclasses as d
 import subprocess, re
+import adi
+
+@d.dataclass
+class Device:
+
+    serial: str
+    uri_usb: str
+
+    def create_pluto(self):
+        return adi.Pluto(self.uri_usb)
 
 class DeviceList:
 
@@ -21,14 +31,15 @@ class DeviceList:
             devices.append(Device(serial.group(), uri_usb.group()))
         self.devices = devices
     
-    def find_by_serial(self, serial: str):
+    def find(self, serial: str) -> Device:
         for device in self.devices:
             if device.serial == serial:
                 return device
-        return None
+        raise Exception("device not found")
 
-@d.dataclass
-class Device:
-
-    serial: str
-    uri_usb: str = None
+    def all(self, excludes=[]):
+        filterd = []
+        for device in self.devices:
+            if not device.serial in excludes:
+                filterd.append(device)
+        return filterd

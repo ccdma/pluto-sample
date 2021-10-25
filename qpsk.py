@@ -1,10 +1,11 @@
 import numpy as np
-import wave
 import matplotlib.pyplot as plt
 import scipy.signal as sig
-import scipy
 import commpy
-import adi
+import adiutil
+
+MHz = 1000*1000
+DEVICES = adiutil.DeviceList()
 
 bits = np.random.randint(0, 2, 1024)
 rate = 9600
@@ -23,8 +24,6 @@ if __name__ == "__main__":
     upsampled = np.convolve(h_rrc, upsamp)
 
     # upsampled = commpy.utilities.upsample(qpsk_mod, upsample_ratio)
-
-    sdr = adi.Pluto(uri="usb:5.2.5")
     
     # 時系列表示
     # ax1 = plt.subplot(2,1,1)
@@ -45,3 +44,13 @@ if __name__ == "__main__":
     # plt.plot(upsampled.real, upsampled.imag, lw=1)
     # plt.scatter(upsampled.real, upsampled.imag, s=10)
     # plt.show()
+
+    sdr = DEVICES.find("1044734c9605000d15003300deb64fb9ce").create_pluto()
+    sdr.tx_rf_bandwidth = 0.1 * MHz
+    sdr.tx_lo = 920*MHz
+    sdr.sample_rate = int(targetrate)
+    sdr.tx_hardwaregain = 0
+
+    while True:
+        for idx in range(0, len(upsampled), 1024):
+            sdr.tx(upsampled[idx:idx+1023]*1024)
