@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import scipy.signal as sig
 import scipy
 import commpy
+import adi
 
 bits = np.random.randint(0, 2, 1024)
 rate = 9600
@@ -23,6 +24,8 @@ if __name__ == "__main__":
 
     # upsampled = commpy.utilities.upsample(qpsk_mod, upsample_ratio)
 
+    sdr = adi.Pluto(uri="usb:5.2.5")
+    
     # 時系列表示
     # ax1 = plt.subplot(2,1,1)
     # ax2 = plt.subplot(2,1,2)
@@ -30,15 +33,15 @@ if __name__ == "__main__":
     # ax2.plot(qpsk_mod.imag, drawstyle="steps-post")
 
     # スペクトラム表示（qpsk_mod）
-    yf = scipy.fft.fft(upsampled)
-    yf = scipy.fft.fftshift(yf)
-    N = int(len(yf))
-    xf = np.linspace(-targetrate/2.0, targetrate/2.0, N)
-    plt.figure()
-    plt.semilogy(xf, np.abs(yf[:N]), '-b')
+    # yf = scipy.fft.fft(upsampled)
+    # yf = scipy.fft.fftshift(yf)
+    # N = int(len(yf))
+    # xf = np.linspace(-targetrate/2.0, targetrate/2.0, N)
+    # plt.figure()
+    # plt.semilogy(xf, np.abs(yf[:N]), '-b')
 
-    # QPSKコンスタレーション
-    plt.figure()
-    plt.plot(upsampled.real, upsampled.imag, lw=1)
-    plt.scatter(upsampled.real, upsampled.imag, s=10)
-    plt.show()
+    # # QPSKコンスタレーション
+    # plt.figure()
+    # plt.plot(upsampled.real, upsampled.imag, lw=1)
+    # plt.scatter(upsampled.real, upsampled.imag, s=10)
+    # plt.show()
