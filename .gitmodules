@@ -1,3 +1,6 @@
 [submodule "adiutil"]
 	path = adiutil
 	url = https://github.com/ccdma/adiutil
+[submodule "ica"]
+	path = ica
+	url = https://github.com/ccdma/ica
