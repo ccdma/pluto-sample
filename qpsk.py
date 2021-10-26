@@ -36,12 +36,12 @@ if __name__ == "__main__":
     # ax2.plot(qpsk_mod.imag, drawstyle="steps-post")
 
     # スペクトラム表示（qpsk_mod）
-    yf = fft.fft(upsampled)
-    yf = fft.fftshift(yf)
-    N = int(len(yf))
-    xf = np.linspace(-targetrate/2.0, targetrate/2.0, N)
-    plt.figure()
-    plt.semilogy(xf, np.abs(yf[:N]), '-b')
+    # yf = fft.fft(upsampled)
+    # yf = fft.fftshift(yf)
+    # N = int(len(yf))
+    # xf = np.linspace(-targetrate/2.0, targetrate/2.0, N)
+    # plt.figure()
+    # plt.semilogy(xf, np.abs(yf[:N]), '-b')
 
     # # QPSKコンスタレーション
     # plt.figure()
@@ -49,12 +49,12 @@ if __name__ == "__main__":
     # plt.scatter(upsampled.real, upsampled.imag, s=10)
     plt.show()
 
-    # sdr = DEVICES.find("1044734c9605000d15003300deb64fb9ce").create_pluto()
-    # sdr.tx_rf_bandwidth = 100*KHz
-    # sdr.tx_lo = 920*MHz
-    # sdr.sample_rate = int(targetrate)
-    # sdr.tx_hardwaregain = 0
+    sdr = DEVICES.find("1044734c9605000d15003300deb64fb9ce").create_pluto()
+    sdr.tx_rf_bandwidth = 100*KHz
+    sdr.tx_lo = 925*MHz
+    sdr.sample_rate = int(targetrate)
+    sdr.tx_hardwaregain = 0
 
-    # while True:
-    #     for idx in range(0, len(upsampled), 1024):
-    #         sdr.tx(upsampled[idx:idx+1023]*1024)
+    while True:
+        for idx in range(0, len(upsampled), 1024):
+            sdr.tx(upsampled[idx:idx+1023]*1024)

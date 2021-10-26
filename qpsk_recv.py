@@ -12,7 +12,7 @@ DEVICES = adiutil.DeviceList()
 if __name__ == "__main__":
     sdr = DEVICES.find("1044734c96050013f7ff27004a464f13a0").create_pluto()
     sdr.rx_rf_bandwidth = 100*KHz
-    sdr.rx_lo = 920*MHz + 500*KHz
+    sdr.rx_lo = 925*MHz
     sdr.sample_rate = int(2.4e6)
 
     samples = sdr.rx()
