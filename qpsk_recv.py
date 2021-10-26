@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.signal as sig
+import scipy.fftpack as fft
 import commpy, scipy, pylab
 import adiutil
 
@@ -15,6 +16,7 @@ if __name__ == "__main__":
     sdr.sample_rate = int(2.4e6)
 
     samples = sdr.rx()
+    print(sdr)
 
     # QPSKコンスタレーション
     # plt.figure()
@@ -22,8 +24,8 @@ if __name__ == "__main__":
     # plt.scatter(samples.real, samples.imag, s=10)
     # plt.show()
 
-    yf = scipy.fft.fft(samples)
-    yf = scipy.fft.fftshift(yf)
+    yf = fft.fft(samples)
+    yf = fft.fftshift(yf)
     N = int(len(yf))
     targetrate = 9600*150
     xf = np.linspace(-targetrate/2.0, targetrate/2.0, N)
