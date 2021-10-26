@@ -1,0 +1,3 @@
+[submodule "adiutil"]
+	path = adiutil
+	url = https://github.com/ccdma/adiutil
