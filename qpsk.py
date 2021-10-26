@@ -5,6 +5,8 @@ import scipy.fftpack as fft
 import commpy, scipy
 import adiutil
 
+np.random.seed(1)
+
 KHz = 1000
 MHz = 1000*1000
 DEVICES = adiutil.DeviceList()
