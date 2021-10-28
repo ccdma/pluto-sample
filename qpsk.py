@@ -57,6 +57,7 @@ if __name__ == "__main__":
     sdr.tx_hardwaregain = 0
 
     start = time.time()
+    print(f"{sdr.uri} started")
     while (time.time() - start) < TIME:
         for idx in range(0, len(upsampled), 1024):
             sdr.tx(upsampled[idx:idx+1023]*1024)

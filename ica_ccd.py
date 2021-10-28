@@ -36,7 +36,12 @@ if __name__ == "__main__":
 
     SERIES = len(t_sdrs)
 
-    S = np.array([seed.chebyt_series(i, 0.1+i/10, 1024*1000) for i in range(SERIES)])
+    S = []
+    for i in range(SERIES):
+        ser = seed.chebyt_series(i, 0.1+i/10, 1024*1000) 
+        S.append(ser + ser*1j)
+    S = np.array(S)
+
     # fs = int(sdr.sample_rate)
     # N = 1024
     # fc = int(3000000 / (fs / N)) * (fs / N)
@@ -56,6 +61,7 @@ if __name__ == "__main__":
 
     def send(sdr, s):
         start = time.time()
+        print(f"{sdr.uri} started")
         while (time.time() - start) < TIME:
             for idx in range(0, len(s), 1024):
                 sdr.tx(s[idx:idx+1023]*2**14)
