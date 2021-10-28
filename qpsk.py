@@ -4,18 +4,16 @@ import scipy.signal as sig
 import scipy.fftpack as fft
 import commpy, scipy
 import adiutil, time
+from adiutil.static import *
 
 np.random.seed(1)
 
-KHz = 1000
-MHz = 1000*1000
 DEVICES = adiutil.DeviceList()
 
 bits = np.random.randint(0, 2, 1024)
 rate = 9600
 upsample_ratio = 150
 targetrate = rate*upsample_ratio
-TIME = 15.0
 
 if __name__ == "__main__":
     # bpsk変調
@@ -50,12 +48,10 @@ if __name__ == "__main__":
     # plt.scatter(upsampled.real, upsampled.imag, s=10)
     plt.show()
 
-    sdr = DEVICES.find("1044734c9605000d15003300deb64fb9ce").create_pluto()
-    sdr.tx_rf_bandwidth = 100*KHz
-    sdr.tx_lo = 925*MHz
+    sdr = DEVICES.find("1044734c9605000d15003300deb64fb9ce").get_pluto()
     sdr.sample_rate = int(targetrate)
     sdr.tx_hardwaregain = 0
-
+    
     start = time.time()
     print(f"{sdr.uri} started")
     while (time.time() - start) < TIME:

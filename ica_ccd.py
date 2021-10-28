@@ -17,22 +17,16 @@ rate = 96000
 upsample_ratio = 150
 targetrate = rate*upsample_ratio
 
-TIME = 15.0
-
 if __name__ == "__main__":
-    sdr0 = DEVICES.find("1044734c9605000d15003300deb64fb9ce").create_pluto()
-    # sdr1 = DEVICES.find("1044734c96050013f7ff27004a464f13a0").create_pluto()
+    sdr0 = DEVICES.find("1044734c9605000d15003300deb64fb9ce").get_pluto()
+    # sdr1 = DEVICES.find("1044734c96050013f7ff27004a464f13a0").get_pluto()
     
     r_sdrs = []
     t_sdrs = [sdr0]
     
     for sdr in r_sdrs+t_sdrs:
-        sdr.tx_lo = 920*MHz
-        sdr.rx_lo = 920*MHz
         sdr.tx_hardwaregain_chan0 = 0
-        sdr.tx_rf_bandwidth = 100*KHz
         sdr.sample_rate = int(targetrate)
-        sdr.rx_rf_bandwidth = 100*KHz
 
     SERIES = len(t_sdrs)
 
@@ -64,7 +58,7 @@ if __name__ == "__main__":
         print(f"{sdr.uri} started")
         while (time.time() - start) < TIME:
             for idx in range(0, len(s), 1024):
-                sdr.tx(s[idx:idx+1023]*2**14)
+                sdr.tx(s[idx:idx+1023]*1024)
         sdr.tx_destroy_buffer()
 
     def read(sdr, rx_buf):
