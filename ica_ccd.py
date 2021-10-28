@@ -58,7 +58,7 @@ if __name__ == "__main__":
         print(f"{sdr.uri} started")
         while (time.time() - start) < TIME:
             for idx in range(0, len(s), 1024):
-                sdr.tx(s[idx:idx+1023]*1024)
+                sdr.tx(s[idx:idx+1023])
         sdr.tx_destroy_buffer()
 
     def read(sdr, rx_buf):
