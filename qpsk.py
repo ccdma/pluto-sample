@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import scipy.signal as sig
 import scipy.fftpack as fft
 import commpy, scipy
-import adiutil
+import adiutil, time
 
 np.random.seed(1)
 
@@ -15,6 +15,7 @@ bits = np.random.randint(0, 2, 1024)
 rate = 9600
 upsample_ratio = 150
 targetrate = rate*upsample_ratio
+TIME = 15.0
 
 if __name__ == "__main__":
     # bpsk変調
@@ -55,6 +56,8 @@ if __name__ == "__main__":
     sdr.sample_rate = int(targetrate)
     sdr.tx_hardwaregain = 0
 
-    while True:
+    start = time.time()
+    while (time.time() - start) < TIME:
         for idx in range(0, len(upsampled), 1024):
             sdr.tx(upsampled[idx:idx+1023]*1024)
+    sdr.tx_destroy_buffer() # バッファを消してやらないとセグフォ？

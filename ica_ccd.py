@@ -29,7 +29,7 @@ if __name__ == "__main__":
     for sdr in r_sdrs+t_sdrs:
         sdr.tx_lo = 920*MHz
         sdr.rx_lo = 920*MHz
-        # sdr.tx_hardwaregain_chan0 = 0
+        sdr.tx_hardwaregain_chan0 = 0
         sdr.tx_rf_bandwidth = 100*KHz
         sdr.sample_rate = int(targetrate)
         sdr.rx_rf_bandwidth = 100*KHz
@@ -59,6 +59,7 @@ if __name__ == "__main__":
         while (time.time() - start) < TIME:
             for idx in range(0, len(s), 1024):
                 sdr.tx(s[idx:idx+1023]*2**14)
+        sdr.tx_destroy_buffer()
 
     def read(sdr, rx_buf):
         start = time.time()
