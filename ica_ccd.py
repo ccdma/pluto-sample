@@ -26,9 +26,9 @@ if __name__ == "__main__":
     t_devs: List[adiutil.Device] = [dev0]
     
     for dev in r_devs+t_devs:
-        dev = dev.get_pluto()
-        dev.tx_hardwaregain_chan0 = 0
-        dev.sample_rate = int(targetrate)
+        sdr = dev.get_pluto()
+        sdr.tx_hardwaregain_chan0 = 0
+        sdr.sample_rate = int(targetrate)
 
     SERIES = len(t_devs)
 
