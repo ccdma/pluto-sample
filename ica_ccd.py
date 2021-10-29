@@ -4,12 +4,13 @@ from adiutil import static
 import scipy.signal as sig
 import scipy.fftpack as fft
 import commpy, scipy
-import adiutil
+import adiutil, adi
 import time, csv, threading
 from adiutil.static import *
 from ica.algorithm import fastica
 from ica.eval import seed
 from itertools import zip_longest
+from typing import List
 
 DEVICES = adiutil.DeviceList()
 
@@ -18,17 +19,18 @@ upsample_ratio = 150
 targetrate = rate*upsample_ratio
 
 if __name__ == "__main__":
-    sdr0 = DEVICES.find("1044734c9605000d15003300deb64fb9ce").get_pluto()
-    # sdr1 = DEVICES.find("1044734c96050013f7ff27004a464f13a0").get_pluto()
+    dev0 = DEVICES.find("1044734c9605000d15003300deb64fb9ce")
+    dev1 = DEVICES.find("1044734c96050013f7ff27004a464f13a0")
     
-    r_sdrs = []
-    t_sdrs = [sdr0]
+    r_devs: List[adiutil.Device] = []
+    t_devs: List[adiutil.Device] = [dev0]
     
-    for sdr in r_sdrs+t_sdrs:
-        sdr.tx_hardwaregain_chan0 = 0
-        sdr.sample_rate = int(targetrate)
+    for dev in r_devs+t_devs:
+        dev = dev.get_pluto()
+        dev.tx_hardwaregain_chan0 = 0
+        dev.sample_rate = int(targetrate)
 
-    SERIES = len(t_sdrs)
+    SERIES = len(t_devs)
 
     S = []
     for i in range(SERIES):
@@ -51,27 +53,29 @@ if __name__ == "__main__":
         S_MOD.append(s)
     S = np.array(S_MOD)
 
-    rx_bufs = [[] for _ in r_sdrs]
+    rx_bufs = [[] for _ in r_devs]
 
-    def send(sdr, s):
+    def send(dev: adiutil.Device, s):
+        sdr = dev.get_pluto()
         start = time.time()
-        print(f"{sdr.uri} started")
+        print(f"{dev.name} started")
         while (time.time() - start) < TIME:
             for idx in range(0, len(s), 1024):
-                sdr.tx(s[idx:idx+1023])
+                sdr.tx(s[idx:idx+1023]*2**14)
         sdr.tx_destroy_buffer()
 
-    def read(sdr, rx_buf):
+    def read(dev: adiutil.Device, rx_buf):
+        sdr = dev.get_pluto()
         start = time.time()
         while (time.time() - start) < TIME:
             rx_buf.extend(sdr.rx())
 
     threads = []
-    for sdr, s in zip_longest(t_sdrs, S):
-        t = threading.Thread(target=send, args=(sdr, s), name=f"{sdr.uri}-send")
+    for dev, s in zip_longest(t_devs, S):
+        t = threading.Thread(target=send, args=(dev, s), name=f"{dev.name}-send")
         threads.append(t)
-    for sdr, rx_buf in zip_longest(r_sdrs, rx_bufs):
-        t = threading.Thread(target=read, args=(sdr, rx_buf), name=f"{sdr.uri}-read")
+    for dev, rx_buf in zip_longest(r_devs, rx_bufs):
+        t = threading.Thread(target=read, args=(dev, rx_buf), name=f"{dev.name}-read")
         threads.append(t)
 
     for thread in threads:
@@ -101,9 +105,9 @@ if __name__ == "__main__":
     # plt.semilogy(xf, np.abs(yf[:N]), '-b')
 
     # plt.figure()
-    # b = np.array(rx_bufs[0][1024*100:1024*101])
+    # b = np.array(rx_bufs[0][1024*10:1024*11])
     # plt.plot(b.real, b.imag, lw=1)
-    # plt.scatter(b.real, b.imag, s=10)
+    # plt.scatter(b.real, b.imag, s=2)
     # plt.show()
 
     # with open('chebyt.csv', 'w') as f:
