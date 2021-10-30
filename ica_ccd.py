@@ -12,30 +12,45 @@ from ica.eval import seed
 from itertools import zip_longest
 from typing import List
 
+np.random.seed(1)
 DEVICES = adiutil.DeviceList()
 
 rate = 96000
 upsample_ratio = 150
 targetrate = rate*upsample_ratio
 
+def make_qpsk():
+    bits = np.random.randint(0, 2, 1024)
+    # bpsk変調
+    bpsk_mod = bits*2 - 1.0
+    # qpsk変調
+    qpsk_mod = bpsk_mod[::2]+bpsk_mod[1::2]*1.0j
+    qpsk_mod = qpsk_mod*(1.0/np.sqrt(2.0))
+    # upsample
+    upsamp = sig.resample(qpsk_mod, int(len(qpsk_mod)*upsample_ratio))
+    h_rrc = commpy.filters.rrcosfilter(len(upsamp), 0.8, 1/rate, targetrate)[1]
+    upsampled = np.convolve(h_rrc, upsamp)
+    return upsampled
+
 if __name__ == "__main__":
     dev0 = DEVICES.find("1044734c9605000d15003300deb64fb9ce")
     dev1 = DEVICES.find("1044734c96050013f7ff27004a464f13a0")
     
-    r_devs: List[adiutil.Device] = []
+    r_devs: List[adiutil.Device] = [dev1]
     t_devs: List[adiutil.Device] = [dev0]
     
     for dev in r_devs+t_devs:
         sdr = dev.get_pluto()
-        sdr.tx_hardwaregain_chan0 = 0
+        sdr.tx_hardwaregain = 0
         sdr.sample_rate = int(targetrate)
 
     SERIES = len(t_devs)
 
     S = []
     for i in range(SERIES):
-        ser = seed.chebyt_series(i, 0.1+i/10, 1024*1000) 
-        S.append(ser + ser*1j)
+        ser = seed.chebyt_series(i+2, 0.1+i/10, 1024*100) 
+        S.append((ser + ser*1j)*1024)
+        # S.append(make_qpsk()*1024)
     S = np.array(S)
 
     # fs = int(sdr.sample_rate)
@@ -47,11 +62,11 @@ if __name__ == "__main__":
     # q = np.sin(2 * np.pi * t * fc) * 2 ** 14
     # S = np.array([i + 1j*q for _ in range(SERIES)])
 
-    S_MOD = []
-    for s in S:
-        resampled = commpy.utilities.upsample(s, upsample_ratio)
-        S_MOD.append(s)
-    S = np.array(S_MOD)
+    # S_MOD = []
+    # for s in S:
+    #     resampled = commpy.utilities.upsample(s, upsample_ratio)
+    #     S_MOD.append(s)
+    # S = np.array(S_MOD)
 
     rx_bufs = [[] for _ in r_devs]
 
@@ -61,7 +76,7 @@ if __name__ == "__main__":
         print(f"{dev.name} started")
         while (time.time() - start) < TIME:
             for idx in range(0, len(s), 1024):
-                sdr.tx(s[idx:idx+1023]*2**14)
+                sdr.tx(s[idx:idx+1023])
         sdr.tx_destroy_buffer()
 
     def read(dev: adiutil.Device, rx_buf):
@@ -84,7 +99,6 @@ if __name__ == "__main__":
         thread.join()
 
     
-
     # plt.figure()
     # x = np.array(rx_bufs[0][1024*50:1024*101])
     # f, Pxx_den = sig.periodogram(x, fs)
@@ -104,11 +118,14 @@ if __name__ == "__main__":
     # xf = np.linspace(-targetrate/2.0, targetrate/2.0, N)
     # plt.semilogy(xf, np.abs(yf[:N]), '-b')
 
-    # plt.figure()
-    # b = np.array(rx_bufs[0][1024*10:1024*11])
-    # plt.plot(b.real, b.imag, lw=1)
-    # plt.scatter(b.real, b.imag, s=2)
-    # plt.show()
+    plt.figure()
+    b = np.array(rx_bufs[0][1024*3:1024*8])
+    plt.plot(b.real, b.imag, lw=1)
+    plt.scatter(b.real, b.imag, s=2)
+    s = S[0][1024*3:1024*8]
+    plt.plot(s.real, s.imag, lw=1)
+    plt.scatter(s.real, s.imag, s=2)
+    plt.show()
 
     # with open('chebyt.csv', 'w') as f:
     #     writer = csv.writer(f)
