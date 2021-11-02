@@ -36,7 +36,7 @@ if __name__ == "__main__":
     dev0 = DEVICES.find("1044734c9605000d15003300deb64fb9ce")
     dev1 = DEVICES.find("1044734c96050013f7ff27004a464f13a0")
     
-    r_devs: List[adiutil.Device] = [dev1]
+    r_devs: List[adiutil.Device] = []
     t_devs: List[adiutil.Device] = [dev0]
     
     for dev in r_devs+t_devs:
@@ -49,7 +49,7 @@ if __name__ == "__main__":
     S = []
     for i in range(SERIES):
         ser = seed.chebyt_series(i+2, 0.1+i/10, 1024*100) 
-        S.append((ser + ser*1j)*1024)
+        S.append((ser + ser*1j)*2**14)
         # S.append(make_qpsk()*1024)
     S = np.array(S)
 
@@ -118,14 +118,15 @@ if __name__ == "__main__":
     # xf = np.linspace(-targetrate/2.0, targetrate/2.0, N)
     # plt.semilogy(xf, np.abs(yf[:N]), '-b')
 
-    plt.figure()
-    b = np.array(rx_bufs[0][1024*3:1024*8])
-    plt.plot(b.real, b.imag, lw=1)
-    plt.scatter(b.real, b.imag, s=2)
-    s = S[0][1024*3:1024*8]
-    plt.plot(s.real, s.imag, lw=1)
-    plt.scatter(s.real, s.imag, s=2)
-    plt.show()
+    if len(r_devs) > 0:
+        plt.figure()
+        b = np.array(rx_bufs[0][1024*3:1024*8])
+        plt.plot(b.real, b.imag, lw=1)
+        plt.scatter(b.real, b.imag, s=2)
+        s = S[0][1024*3:1024*8]
+        plt.plot(s.real, s.imag, lw=1)
+        plt.scatter(s.real, s.imag, s=2)
+        plt.show()
 
     # with open('chebyt.csv', 'w') as f:
     #     writer = csv.writer(f)
