@@ -49,7 +49,7 @@ if __name__ == "__main__":
     S = []
     for i in range(SERIES):
         ser = seed.chebyt_series(i+2, 0.1+i/10, 1024*100) 
-        ser2 = seed.chebyt_series(i+3, 0.1+i/10, 1024*100) 
+        ser2 = seed.chebyt_series(i+3, 0.3+i/10, 1024*100) 
         S.append((ser + ser2*1j)*2**14)
         # S.append(make_qpsk()*1024)
     S = np.array(S)
@@ -120,13 +120,21 @@ if __name__ == "__main__":
     # plt.semilogy(xf, np.abs(yf[:N]), '-b')
 
     if len(r_devs) > 0:
-        plt.figure()
-        b = np.array(rx_bufs[0][1024*3:1024*8])
-        plt.plot(b.real, b.imag, lw=1)
-        plt.scatter(b.real, b.imag, s=2)
-        s = S[0][1024*3:1024*8]
-        plt.plot(s.real, s.imag, lw=1)
-        plt.scatter(s.real, s.imag, s=2)
+        fig = plt.figure()
+        b = np.array(rx_bufs[0]).imag
+        s = np.array(S[0]).real
+        length = 100000
+        plt.scatter(b[0:length], b[1:length+1], s=2)
+        # plt.scatter(s[0:length], s[1:length+1], s=2)
+        
+        # plt.figure()
+        # b = np.array(rx_bufs[0][1024*3:1024*8])
+        # plt.plot(b.real, b.imag, lw=1)
+        # plt.scatter(b.real, b.imag, s=2)
+        # s = S[0][1024*3:1024*8]
+        # plt.plot(s.real, s.imag, lw=1)
+        # plt.scatter(s.real, s.imag, s=2)
+        fig.savefig(f"res.png")
         plt.show()
 
     # with open('chebyt.csv', 'w') as f:
