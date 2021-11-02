@@ -49,7 +49,8 @@ if __name__ == "__main__":
     S = []
     for i in range(SERIES):
         ser = seed.chebyt_series(i+2, 0.1+i/10, 1024*100) 
-        S.append((ser + ser*1j)*2**14)
+        ser2 = seed.chebyt_series(i+3, 0.1+i/10, 1024*100) 
+        S.append((ser + ser2*1j)*2**14)
         # S.append(make_qpsk()*1024)
     S = np.array(S)
 
