@@ -5,7 +5,7 @@ import scipy.fftpack as fft
 import commpy, scipy
 import adiutil, time
 from adiutil.static import *
-from pica.ica import const_powerd_samples_2
+from pica.ica import const_powerd_samples
 
 np.random.seed(1)
 
@@ -16,7 +16,7 @@ upsample_ratio = 150
 targetrate = rate*upsample_ratio
 
 if __name__ == "__main__":
-    com = const_powerd_samples_2(complex(np.cos(np.pi/3), np.sin(np.pi/3)), 1024) 
+    com = const_powerd_samples(3, complex(np.cos(np.pi/3), np.sin(np.pi/3)), 1024) 
     upsampled = com*2**2
 
     sdr = DEVICES.find("1044734c9605000d15003300deb64fb9ce").get_pluto()
