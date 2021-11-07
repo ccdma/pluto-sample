@@ -46,7 +46,7 @@ if __name__ == "__main__":
     # plt.figure()
     # plt.plot(upsampled.real, upsampled.imag, lw=1)
     # plt.scatter(upsampled.real, upsampled.imag, s=10)
-    plt.show()
+    # plt.show()
 
     sdr = DEVICES.find("1044734c9605000d15003300deb64fb9ce").get_pluto()
     sdr.sample_rate = int(targetrate)
