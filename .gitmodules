@@ -3,4 +3,4 @@
 	url = git@github.com:ccdma/adiutil.git
 [submodule "pica"]
 	path = pica
-	url = git@github.com:face0u0/pica.git
+	url = git@github.com:ccdma/pica.git
