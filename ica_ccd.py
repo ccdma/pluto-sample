@@ -50,7 +50,7 @@ if __name__ == "__main__":
     for i in range(SIGNALS):
         # ser = chebyt_samples(i+2, 0.1+i/10, 1024*100) 
         # ser2 = chebyt_samples(i+3, 0.3+i/10, 1024*100)
-        com = const_powerd_samples(2, complex(np.cos(np.pi/3), np.sin(np.pi/3)), 1024) 
+        com = const_powerd_samples(2, np.pi/3, 1024)
         S.append(com)
         # S.append(make_qpsk()*1024)
     S = np.array(S)
