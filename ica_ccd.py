@@ -7,8 +7,7 @@ import commpy, scipy
 import adiutil, adi
 import time, csv, threading
 from adiutil.static import *
-from ica.algorithm import fastica
-from ica.eval import seed
+from pica.ica import chebyt_samples
 from itertools import zip_longest
 from typing import List
 
@@ -48,7 +47,7 @@ if __name__ == "__main__":
 
     S = []
     for i in range(SERIES):
-        ser = seed.chebyt_series(i+2, 0.1+i/10, 1024*100) 
+        ser = chebyt_samples(i+2, 0.1+i/10, 1024*100) 
         S.append((ser + ser*1j)*1024)
         # S.append(make_qpsk()*1024)
     S = np.array(S)

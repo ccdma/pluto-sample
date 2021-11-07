@@ -1,6 +1,6 @@
-[submodule "ica"]
-	path = ica
-	url = git@github.com:ccdma/ica.git
 [submodule "adiutil"]
 	path = adiutil
 	url = git@github.com:ccdma/adiutil.git
+[submodule "pica"]
+	path = pica
+	url = git@github.com:face0u0/pica.git
