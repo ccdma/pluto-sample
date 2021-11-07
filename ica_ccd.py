@@ -7,7 +7,7 @@ import commpy, scipy
 import adiutil, adi
 import time, csv, threading
 from adiutil.static import *
-from pica.ica import chebyt_samples, const_powerd_samples_2
+from pica.ica import chebyt_samples, const_powerd_samples
 from itertools import zip_longest
 from typing import List
 import time
@@ -50,14 +50,15 @@ if __name__ == "__main__":
     for i in range(SIGNALS):
         # ser = chebyt_samples(i+2, 0.1+i/10, 1024*100) 
         # ser2 = chebyt_samples(i+3, 0.3+i/10, 1024*100)
-        com = const_powerd_samples_2(complex(np.cos(np.pi/3), np.sin(np.pi/3)), 1024) 
-        S.append(com*1024*11)
+        com = const_powerd_samples(2, complex(np.cos(np.pi/3), np.sin(np.pi/3)), 1024) 
+        S.append(com)
         # S.append(make_qpsk()*1024)
     S = np.array(S)
 
     fig = plt.figure()
     plt.scatter(S[0].real, S[0].imag, s=2)
-    plt.savefig("AAA")
+    plt.savefig("AAaaaA")
+    exit()
 
     # fs = int(sdr.sample_rate)
     # N = 1024
