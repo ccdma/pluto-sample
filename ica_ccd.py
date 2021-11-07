@@ -10,6 +10,7 @@ from adiutil.static import *
 from pica.ica import chebyt_samples, const_powerd_samples_2
 from itertools import zip_longest
 from typing import List
+import time
 
 np.random.seed(1)
 DEVICES = adiutil.DeviceList()
@@ -49,10 +50,14 @@ if __name__ == "__main__":
     for i in range(SIGNALS):
         # ser = chebyt_samples(i+2, 0.1+i/10, 1024*100) 
         # ser2 = chebyt_samples(i+3, 0.3+i/10, 1024*100)
-        com = const_powerd_samples_2(complex(1.0, 0), 1024) 
-        S.append(com*2**14)
+        com = const_powerd_samples_2(complex(np.cos(np.pi/3), np.sin(np.pi/3)), 1024) 
+        S.append(com*1024*11)
         # S.append(make_qpsk()*1024)
     S = np.array(S)
+
+    fig = plt.figure()
+    plt.scatter(S[0].real, S[0].imag, s=2)
+    plt.savefig("AAA")
 
     # fs = int(sdr.sample_rate)
     # N = 1024
@@ -75,6 +80,9 @@ if __name__ == "__main__":
         sdr = dev.get_pluto()
         start = time.time()
         print(f"{dev.name} started")
+        # sdr.tx_cyclic_buffer = True
+        # sdr.tx(s)
+        # time.sleep(TIME)
         while (time.time() - start) < TIME:
             for idx in range(0, len(s), 1024):
                 sdr.tx(s[idx:idx+1023])
@@ -121,21 +129,24 @@ if __name__ == "__main__":
 
     if len(r_devs) > 0:
         fig = plt.figure()
-        b = np.array(rx_bufs[0]).imag
-        s = np.array(S[0]).real
-        length = 100000
-        plt.scatter(b[0:length], b[1:length+1], s=2)
-        # plt.scatter(s[0:length], s[1:length+1], s=2)
+        start = 90000
+        length = 3000
+        bufs = np.array(rx_bufs[0])[start:start+length]
+        s = np.array(S[0])
+
+        plt.scatter(bufs.real, bufs.imag, s=2)
+        plt.scatter(bufs[0:length-1].real, bufs[1:length].real, s=2)
+        # plt.scatter(s.real, s.imag, s=2)
         
-        # plt.figure()
+        # fig = plt.figure()
         # b = np.array(rx_bufs[0][1024*3:1024*8])
         # plt.plot(b.real, b.imag, lw=1)
         # plt.scatter(b.real, b.imag, s=2)
         # s = S[0][1024*3:1024*8]
         # plt.plot(s.real, s.imag, lw=1)
         # plt.scatter(s.real, s.imag, s=2)
-        fig.savefig(f"res.png")
-        plt.show()
+        # fig.savefig(f"res.png")
+        # plt.show()
 
     # with open('chebyt.csv', 'w') as f:
     #     writer = csv.writer(f)
