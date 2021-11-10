@@ -23,7 +23,7 @@ if __name__ == "__main__":
     # QPSKコンスタレーション
     # plt.plot(samples.real, samples.imag, lw=1)
     plt.scatter(samples.real, samples.imag, s=2)
-    plt.savefig("AAA")
+    plt.savefig("out/AAA")
 
     s_samples = []
     for s in samples:
@@ -35,4 +35,4 @@ if __name__ == "__main__":
     # returnmap
     plt.scatter(samples[0:-1].real, samples[1:].real, s=2)
 
-    plt.savefig("BBB")
+    plt.savefig("out/BBB")

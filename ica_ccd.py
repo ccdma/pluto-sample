@@ -55,11 +55,6 @@ if __name__ == "__main__":
         # S.append(make_qpsk()*1024)
     S = np.array(S)
 
-    fig = plt.figure()
-    plt.scatter(S[0].real, S[0].imag, s=2)
-    plt.savefig("AAaaaA")
-    exit()
-
     # fs = int(sdr.sample_rate)
     # N = 1024
     # fc = int(3000000 / (fs / N)) * (fs / N)
