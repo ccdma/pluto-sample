@@ -11,7 +11,9 @@ DEVICES = adiutil.DeviceList()
 
 if __name__ == "__main__":
     sdr = DEVICES.find("1044734c96050013f7ff27004a464f13a0").get_pluto()
-    sdr.sample_rate = 9600*150
+    sdr.rx_lo = DEFAULT_RX_LO
+    sdr.rx_rf_bandwidth = DEFAULT_RX_BW
+    sdr.sample_rate = SAMPLE_RATE
 
     samples = []
     start = time.time()
