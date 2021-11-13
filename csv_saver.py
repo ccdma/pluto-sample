@@ -16,7 +16,10 @@ if __name__ == "__main__":
 	start = time.time()
 	while (time.time() - start) < TIME-5.0:
 		samples.extend(sdr.rx())
+	center = len(samples)-5000
+	samples = np.array(samples)[center:center+10000]
 
-	with open("out/result.csv") as f:
+	with open("out/result.csv", "w+") as f:
 		writer = csv.writer(f)
-		writer.writerows(samples)
+		writer.writerow(samples.real.tolist())
+		writer.writerow(samples.imag.tolist())
