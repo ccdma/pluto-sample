@@ -20,7 +20,6 @@ if __name__ == "__main__":
 	# while (time.time() - start) < TIME-5.0:
 	samples.extend(sdr.rx())
 	samples = np.array(samples)#[center:center+10000]
-	sdr.tx_destroy_buffer() # バッファを消してやらないとセグフォ？
 
 	with open("out/result.csv", "w+") as f:
 		writer = csv.writer(f)
