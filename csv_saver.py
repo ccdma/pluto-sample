@@ -14,7 +14,7 @@ if __name__ == "__main__":
 	sdr.rx_lo = DEFAULT_RX_LO
 	sdr.rx_rf_bandwidth = DEFAULT_RX_BW
 	sdr.sample_rate = SAMPLE_RATE
-	sdr.rx_buffer_size = 1024*2**4
+	sdr.rx_buffer_size = 173
 
 	samples = []
 	start = time.time()
