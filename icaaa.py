@@ -35,8 +35,8 @@ if __name__ == "__main__":
     sdr.tx_destroy_buffer() # バッファを消してやらないとセグフォ？
 
 
-    # f = open("write.csv", "w+")
-    # c = csv.writer(f)
-    # c.writerow(samples.real)
-    # c.writerow(samples.imag)
-    # f.close()
+    f = open("out/send.csv", "w+")
+    c = csv.writer(f)
+    c.writerow(samples.real)
+    c.writerow(samples.imag)
+    f.close()
