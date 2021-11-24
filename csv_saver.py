@@ -14,7 +14,7 @@ if __name__ == "__main__":
 	sdr.rx_lo = DEFAULT_RX_LO
 	sdr.rx_rf_bandwidth = DEFAULT_RX_BW
 	sdr.sample_rate = SAMPLE_RATE
-	sdr.rx_buffer_size = 173
+	sdr.rx_buffer_size = 1019
 
 	samples = []
 	start = time.time()
@@ -22,7 +22,7 @@ if __name__ == "__main__":
 	samples.extend(sdr.rx())
 	samples = np.array(samples)#[center:center+10000]
 
-	with open("out/result.csv", "w+") as f:
+	with open("out/receive.csv", "w+") as f:
 		writer = csv.writer(f)
 		writer.writerow(samples.real.tolist())
 		writer.writerow(samples.imag.tolist())
