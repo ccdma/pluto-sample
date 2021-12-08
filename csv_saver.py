@@ -10,16 +10,15 @@ from adiutil.static import *
 DEVICES = adiutil.DeviceList()
 
 if __name__ == "__main__":
-	sdr = DEVICES.find("1044734c96050013f7ff27004a464f13a0").get_pluto()
+	sdr = DEVICES.find("3a0").get_pluto()
 	sdr.rx_lo = DEFAULT_RX_LO
 	sdr.rx_rf_bandwidth = DEFAULT_RX_BW
 	sdr.sample_rate = SAMPLE_RATE
-	sdr.rx_buffer_size = 1024*2**2
+	sdr.rx_buffer_size = int(1*MHz)#1024
 	time.sleep(1)
 
 	samples = []
 	start = time.time()
-	# while (time.time() - start) < TIME-5.0:
 	samples.extend(sdr.rx())
 	samples = np.array(samples)#[center:center+10000]
 

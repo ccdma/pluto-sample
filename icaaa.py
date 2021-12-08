@@ -15,9 +15,8 @@ DEVICES = adiutil.DeviceList()
 if __name__ == "__main__":
     SAMPLINGS = 1024
     # samples = weyl_samples(np.sqrt(0.2), np.sqrt(0.3), SAMPLINGS)
-    # samples = np.array([np.exp(2j*np.pi*i/SAMPLINGS) for i in range(SAMPLINGS)])
-    # samples = np.array([(1+1j) for _ in range(SAMPLINGS)]) 
-    samples = primitive_root_code(1019, 2) * 2
+    samples = np.array([np.exp(2j*np.pi*i/SAMPLINGS) for i in range(SAMPLINGS)])
+    # samples = primitive_root_code(1019, 2) * 2
     # samples = const_powerd_samples(2, np.pi/(1+np.sqrt(2)), SAMPLINGS) * 2
     samples = np.array(samples) * 2
 
