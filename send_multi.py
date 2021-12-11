@@ -69,7 +69,7 @@ if __name__ == "__main__":
 
 		flows[0].on_send_start()
 		time.sleep(0.01)
-		# flows[1].on_send_start()
+		flows[1].on_send_start()
 
 		time.sleep(TIME)
 		
