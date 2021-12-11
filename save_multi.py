@@ -27,8 +27,11 @@ class NormalRxFlow(RxFlow):
 		sdr.rx_buffer_size = int(1*MHz)
 		self.destroy_buffer()
 
-	def on_read(self):
+	def on_read_start(self):
+		self.destroy_buffer()
 		print(f"{self.sdr.uri} read")
+
+	def on_read_end(self):
 		self.samplings = self.sdr.rx()
 		
 	def on_before_destroy(self):
@@ -52,17 +55,24 @@ if __name__ == "__main__":
 
 	flows = [
 		NormalRxFlow(DEVICES.find("3a0")),
-		# NormalRxFlow(DEVICES.find("f24")),
+		NormalRxFlow(DEVICES.find("f24")),
 	]
 
 	try:
 		for flow in flows:
 			flow.on_init()
 
-		time.sleep(1)
+		print("init sleep started")
+		time.sleep(1.0)
+		print("init sleep end")
 
 		for flow in flows:
-			flow.on_read()
+			flow.on_read_start()
+
+		time.sleep(1.0)
+
+		for flow in flows:
+			flow.on_read_end()
 
 		for flow in flows:
 			flow.on_before_destroy()

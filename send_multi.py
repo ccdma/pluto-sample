@@ -56,16 +56,16 @@ if __name__ == "__main__":
 
 	flows = [
 		NormalTxFlow(DEVICES.find("d87"), const_powerd_samples(2, np.pi/(1+np.sqrt(2)), SAMPLINGS)*4),
-		# NormalTxFlow(DEVICES.find("9ce"), const_powerd_samples(2, np.pi/(1+np.sqrt(3)), SAMPLINGS)*4)
+		NormalTxFlow(DEVICES.find("9ce"), const_powerd_samples(2, np.pi/(1+np.sqrt(3)), SAMPLINGS)*4)
 	]
 
 	try:
 		for flow in flows:
 			flow.on_init()
 
-		print("sleep started")
+		print("init sleep started")
 		time.sleep(3.0)
-		print("sleep end")
+		print("init sleep end")
 
 		flows[0].on_send_start()
 		time.sleep(0.01)
