@@ -44,11 +44,11 @@ class NormalTxFlow(TxFlow):
 	def save_file(self):
 		basedir = Path("out/send")
 		basedir.mkdir(parents=True, exist_ok=True)
-		with open(basedir/f"send-{self.device.serial[-5:]}.csv", "w+") as f:
+		filepath = basedir/f"send-{self.device.serial_short}.csv"
+		with open(filepath, "w+") as f:
 			c = csv.writer(f)
 			c.writerow(self.samplings.real)
 			c.writerow(self.samplings.imag)
-
 
 # np.array()で信号を生成すること！（途中の演算はnp.arrayをを想定している）
 if __name__ == "__main__":

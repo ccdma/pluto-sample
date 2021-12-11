@@ -38,11 +38,13 @@ class NormalRxFlow(RxFlow):
 	def on_before_destroy(self):
 		basedir = Path("out/receive")
 		basedir.mkdir(parents=True, exist_ok=True)
+		filepath = basedir/f"receive-{self.device.serial_short}.csv"
 		samplings = np.array(self.samplings)
-		with open(basedir/f"receive-{self.device.serial[-5:]}.csv", "w+") as f:
+		with open(filepath, "w+") as f:
 			c = csv.writer(f)
 			c.writerow(samplings.real)
 			c.writerow(samplings.imag)
+			print(f"save result to {filepath}")
 	
 	def on_destroy(self):
 		self.destroy_buffer()
