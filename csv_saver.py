@@ -28,13 +28,14 @@ class NormalRxFlow(RxFlow):
 		self.destroy_buffer()
 
 	def on_read(self):
-		self.samplings = sdr.rx()
+		print(f"{self.sdr.uri} read")
+		self.samplings = self.sdr.rx()
 		
 	def on_before_destroy(self):
 		basedir = Path("out/receive")
 		basedir.mkdir(parents=True, exist_ok=True)
 		samplings = np.array(self.samplings)
-		with open(basedir/f"send-{self.device.serial[-5:]}.csv", "w+") as f:
+		with open(basedir/f"receive-{self.device.serial[-5:]}.csv", "w+") as f:
 			c = csv.writer(f)
 			c.writerow(samplings.real)
 			c.writerow(samplings.imag)
@@ -51,7 +52,7 @@ if __name__ == "__main__":
 
 	flows = [
 		NormalRxFlow(DEVICES.find("3a0")),
-		NormalRxFlow(DEVICES.find("f24"))
+		# NormalRxFlow(DEVICES.find("f24")),
 	]
 
 	try:

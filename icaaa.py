@@ -56,7 +56,7 @@ if __name__ == "__main__":
 
 	flows = [
 		NormalTxFlow(DEVICES.find("d87"), const_powerd_samples(2, np.pi/(1+np.sqrt(2)), SAMPLINGS)*4),
-		NormalTxFlow(DEVICES.find("9ce"), const_powerd_samples(2, np.pi/(1+np.sqrt(3)), SAMPLINGS)*4)
+		# NormalTxFlow(DEVICES.find("9ce"), const_powerd_samples(2, np.pi/(1+np.sqrt(3)), SAMPLINGS)*4)
 	]
 
 	try:
@@ -69,7 +69,7 @@ if __name__ == "__main__":
 
 		flows[0].on_send_start()
 		time.sleep(0.01)
-		flows[1].on_send_start()
+		# flows[1].on_send_start()
 
 		time.sleep(TIME)
 		
