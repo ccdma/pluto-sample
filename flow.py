@@ -20,9 +20,6 @@ class TxFlow(DeviceFlow):
 	
 class RxFlow(DeviceFlow):
 
-	def on_read_start(self):
-		pass
-
-	def on_read_end(self):
+	def on_read(self):
 		pass
 

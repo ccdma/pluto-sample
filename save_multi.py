@@ -26,12 +26,10 @@ class NormalRxFlow(RxFlow):
 		sdr.sample_rate = SAMPLE_RATE
 		sdr.rx_buffer_size = int(1*MHz)
 		self.destroy_buffer()
-
-	def on_read_start(self):
+	
+	def on_read(self):
 		print(f"{self.device.serial_short} receive start")
 		self.destroy_buffer()
-
-	def on_read_end(self):
 		self.samplings = self.sdr.rx()
 		print(f"{self.device.serial_short} receive ended")
 		
@@ -69,13 +67,10 @@ if __name__ == "__main__":
 		time.sleep(1.0)
 		print("init sleep end")
 
-		for flow in flows:
-			flow.on_read_start()
-
 		time.sleep(1.0)
 
 		for flow in flows:
-			flow.on_read_end()
+			flow.on_read()
 
 		for flow in flows:
 			flow.on_before_destroy()

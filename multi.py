@@ -13,6 +13,7 @@ from flow import DeviceFlow, TxFlow
 from pica.ica import const_powerd_samples, primitive_root_code, weyl_samples
 from save_multi import NormalRxFlow
 from send_multi import NormalTxFlow
+import threading
 
 if __name__ == "__main__":
 	SAMPLINGS = 1024
@@ -39,18 +40,27 @@ if __name__ == "__main__":
 		print("init sleep end")
 
 		tx_flows[0].on_send_start()
-		for flow in rx_flows:
-			flow.on_read_start()
-		time.sleep(0.01)
-		tx_flows[1].on_send_start()
-
 		time.sleep(1.0)
+		tx_flows[1].on_send_start()
+		# time.sleep(0.02)
 
+		rx_read_threads = []
 		for flow in rx_flows:
-			flow.on_read_end()
+			def target():
+				f = flow
+				print(f"{f.device.serial_short} {time.time()}")
+				f.on_read()
+				print(f"{f.device.serial_short} {time.time()}")
+			t = threading.Thread(target=target)
+			t.start()
+			rx_read_threads.append(t)
+
+		for thread in rx_read_threads:
+			t.join()
+		
+		print(f"end reading {time.time()}")
 		for flow in tx_flows:
 			flow.on_send_end()
-
 		for flow in flows:
 			flow.on_before_destroy()
 
