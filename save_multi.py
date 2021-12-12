@@ -28,10 +28,10 @@ class NormalRxFlow(RxFlow):
 		self.destroy_buffer()
 	
 	def on_read(self):
-		print(f"{self.device.serial_short} receive start")
+		print(f"{self.device.serial_short} receive start ({time.time()})")
 		self.destroy_buffer()
 		self.samplings = self.sdr.rx()
-		print(f"{self.device.serial_short} receive ended")
+		print(f"{self.device.serial_short} receive ended ({time.time()})")
 		
 	def on_before_destroy(self):
 		basedir = Path("out/receive")

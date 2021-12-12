@@ -41,24 +41,27 @@ if __name__ == "__main__":
 
 		tx_flows[0].on_send_start()
 		time.sleep(1.0)
-		tx_flows[1].on_send_start()
-		# time.sleep(0.02)
+
+		def target():
+			time.sleep(0.01)
+			tx_flows[1].on_send_start()
+		tf1 = threading.Thread(target=target)
+		tf1.start()
 
 		rx_read_threads = []
 		for flow in rx_flows:
 			def target():
 				f = flow
-				print(f"{f.device.serial_short} {time.time()}")
 				f.on_read()
-				print(f"{f.device.serial_short} {time.time()}")
 			t = threading.Thread(target=target)
 			t.start()
 			rx_read_threads.append(t)
 
+		tf1.join()
 		for thread in rx_read_threads:
 			t.join()
 		
-		print(f"end reading {time.time()}")
+		print(f"end reading ({time.time()})")
 		for flow in tx_flows:
 			flow.on_send_end()
 		for flow in flows:

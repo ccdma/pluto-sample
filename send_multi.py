@@ -31,12 +31,12 @@ class NormalTxFlow(TxFlow):
 		self.sdr.tx_destroy_buffer()
 	
 	def on_send_start(self):
-		print(f"{self.device.serial_short} send start")
+		print(f"{self.device.serial_short} send start ({time.time()})")
 		self.sdr.tx(self.samplings*1024)
 	
 	def on_send_end(self):
 		self.sdr.tx_destroy_buffer()
-		print(f"{self.device.serial_short} send ended")
+		print(f"{self.device.serial_short} send ended ({time.time()})")
 	
 	def on_destroy(self):
 		self.sdr.tx_destroy_buffer()
