@@ -43,7 +43,7 @@ if __name__ == "__main__":
 		time.sleep(1.0)
 
 		def target():
-			time.sleep(0.01)
+			time.sleep(0.05) # SR=1Mでいい感じ
 			tx_flows[1].on_send_start()
 		tf1 = threading.Thread(target=target)
 		tf1.start()

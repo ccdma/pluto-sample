@@ -55,7 +55,7 @@ if __name__ == "__main__":
 	DEVICES = adiutil.DeviceList()
 
 	flows = [
-		NormalRxFlow(DEVICES.find("3a0")),
+		# NormalRxFlow(DEVICES.find("3a0")),
 		NormalRxFlow(DEVICES.find("f24")),
 	]
 
