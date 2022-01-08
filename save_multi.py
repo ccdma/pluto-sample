@@ -13,18 +13,19 @@ from flow import RxFlow
 
 class NormalRxFlow(RxFlow):
 
-	def __init__(self, device: Device) -> None:
+	def __init__(self, device: Device, buffer_size: int=1*MHz) -> None:
 		super().__init__()
 		self.device = device
 		self.sdr = device.get_pluto()
 		self.samplings = None
+		self.buffer_size = buffer_size
 
 	def on_init(self):
 		sdr = self.sdr
 		sdr.rx_lo = DEFAULT_RX_LO
 		sdr.rx_rf_bandwidth = DEFAULT_RX_BW
 		sdr.sample_rate = SAMPLE_RATE
-		sdr.rx_buffer_size = int(1*MHz)
+		sdr.rx_buffer_size = int(self.buffer_size)
 		self.destroy_buffer()
 	
 	def on_read(self):
