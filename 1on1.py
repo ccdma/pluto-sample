@@ -19,7 +19,7 @@ if __name__ == "__main__":
 	SAMPLINGS = 1024
 	DEVICES = adiutil.DeviceList()
 
-	tx_flow = NormalTxFlow(DEVICES.find("d87"), const_powerd_samples(2, np.pi/(1+np.sqrt(3)), SAMPLINGS)*4)
+	tx_flow = NormalTxFlow(DEVICES.find("d87"), const_powerd_samples(2, np.pi/(1+np.sqrt(2)), SAMPLINGS)*4)
 	rx_flow = NormalRxFlow(DEVICES.find("3a0"), buffer_size=100*KHz)
 
 	try:
