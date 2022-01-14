@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import scipy.signal as sig
 import scipy.fftpack as fft
 import commpy, scipy
-import adiutil, time, csv
+import adiutil, time, csv, sys
 from adiutil.device import Device
 from adiutil.static import *
 from itertools import zip_longest
@@ -19,8 +19,12 @@ if __name__ == "__main__":
 	SAMPLINGS = 1024
 	DEVICES = adiutil.DeviceList()
 
+	prefix = None
+	if len(sys.argv) > 1:
+		prefix = sys.argv[1]
+
 	tx_flow = NormalTxFlow(DEVICES.find("d87"), const_powerd_samples(2, np.pi/(1+np.sqrt(2)), SAMPLINGS)*4)
-	rx_flow = NormalRxFlow(DEVICES.find("3a0"), buffer_size=100*KHz)
+	rx_flow = NormalRxFlow(DEVICES.find("3a0"), buffer_size=100*KHz, filename_prefix=prefix)
 
 	try:
 		tx_flow.on_init()

@@ -13,12 +13,13 @@ from flow import RxFlow
 
 class NormalRxFlow(RxFlow):
 
-	def __init__(self, device: Device, buffer_size: int=1*MHz) -> None:
+	def __init__(self, device: Device, buffer_size: int=1*MHz, filename_prefix: str=None) -> None:
 		super().__init__()
 		self.device = device
 		self.sdr = device.get_pluto()
 		self.samplings = None
 		self.buffer_size = buffer_size
+		self.filename_prefix = filename_prefix
 
 	def on_init(self):
 		sdr = self.sdr
@@ -36,8 +37,11 @@ class NormalRxFlow(RxFlow):
 		
 	def on_before_destroy(self):
 		basedir = Path("out/receive")
+		filenames = ["receive", self.device.serial_short]
+		if self.filename_prefix:
+			filenames.append(self.filename_prefix)
 		basedir.mkdir(parents=True, exist_ok=True)
-		filepath = basedir/f"receive-{self.device.serial_short}.csv"
+		filepath = basedir/f"{'-'.join(filenames)}.csv"
 		samplings = np.array(self.samplings)
 		with open(filepath, "w+") as f:
 			c = csv.writer(f)
