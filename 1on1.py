@@ -23,8 +23,8 @@ if __name__ == "__main__":
 	if len(sys.argv) > 1:
 		prefix = sys.argv[1]
 
-	tx_flow = NormalTxFlow(DEVICES.find("d87"), const_powerd_samples(2, np.pi/(1+np.sqrt(2)), SAMPLINGS)*4)
-	rx_flow = NormalRxFlow(DEVICES.find("3a0"), buffer_size=100*KHz, filename_prefix=prefix)
+	tx_flow = NormalTxFlow(DEVICES.find("d87"), const_powerd_samples(2, np.pi/(1+np.sqrt(2)), SAMPLINGS)*2)
+	rx_flow = NormalRxFlow(DEVICES.find("9ce"), buffer_size=100*KHz, filename_prefix=prefix)
 
 	try:
 		tx_flow.on_init()
